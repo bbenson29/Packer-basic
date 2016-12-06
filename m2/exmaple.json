@@ -1,0 +1,36 @@
+{
+  "builders":[
+    {
+      "type": "amazon-ebs",
+      "region": "eu-west-1",
+      "source_ami": "ami-be376ecd",
+      "instance_type": "t2.micro",
+      "subnet_id": "subnet-f9cf78a1",
+      "vpc_id": "vpc-16ee5572",
+      "ssh_username": "ubuntu",
+      "ami_name": "MiddleTier-{{isotime | clean_ami_name}}",
+      "ami_description": "Amazon basic Packer Template",
+      "tags": {
+        "role": "MiddleTier"
+      },
+      "run_tags": {
+        "role": "buildSystem"
+      }
+
+
+    }
+
+
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "ansible.sh"
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "./playbook.yml"
+    }
+  ]
+
+}
